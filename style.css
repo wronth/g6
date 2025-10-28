@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardinal Pitstop - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Hidden initially, as customer is the default view */
+        #seller-form-content {
+            display: none;
+        }
+        /* Ensure the login button is styled correctly */
+        .login-button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-content">
+        <img src="mapua_logo.png" alt="Mapúa University Logo" class="logo">
+        <h1>CARDINAL PITSTOP</h1>
+    </div>
+
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Log in to Order</h2>
+            <p>Choose your account type to get started</p>
+            
+            <div class="account-type-tabs">
+                <button id="customer-tab" class="tab-button active" onclick="showTab('customer')">Customer</button>
+                <button id="seller-tab" class="tab-button" onclick="showTab('seller')">Seller</button> 
+            </div>
+
+            <div id="customer-form-content" class="form-content">
+                <form class="login-form">
+                    <label for="mapua-email" class="input-label">Mapúa Email</label>
+                    <input 
+                        type="email" 
+                        id="mapua-email" 
+                        name="mapua-email" 
+                        placeholder="juan.delacruz@mymail.mapua.edu.ph"
+                        value="juan.delacruz@mymail.mapua.edu.ph"
+                        required
+                    >
+
+                    <label for="full-name" class="input-label">Full Name</label>
+                    <input 
+                        type="text" 
+                        id="full-name" 
+                        name="full-name" 
+                        placeholder="e.g., Juan Dela Cruz"
+                        required
+                    >
+
+                    <button type="button" class="login-button" onclick="redirectToDashboard('customer')">
+                        Log in as Customer
+                    </button>
+                </form>
+            </div>
+
+            <div id="seller-form-content" class="form-content">
+                <form class="login-form">
+                    <label for="select-store" class="input-label">Select Your Store</label>
+                    <select id="select-store" name="select-store" class="select-field">
+                        <option value="" disabled selected>Choose a store...</option>
+                    </select>
+
+                    <label for="store-pin" class="input-label">Store Access PIN</label>
+                    <input 
+                        type="password" 
+                        id="store-pin" 
+                        name="store-pin" 
+                        placeholder="Enter PIN (demo: 123)"
+                        required
+                    >
+                    
+                    <p class="demo-pin-text">Demo PIN: 123</p>
+
+                    <button type="button" class="login-button" onclick="redirectToDashboard('seller')">
+                        Log in as Seller
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const customerContent = document.getElementById('customer-form-content');
+            const sellerContent = document.getElementById('seller-form-content');
+            const customerTab = document.getElementById('customer-tab');
+            const sellerTab = document.getElementById('seller-tab');
+
+            if (tabName === 'customer') {
+                customerContent.style.display = 'block';
+                sellerContent.style.display = 'none';
+                customerTab.classList.add('active');
+                sellerTab.classList.remove('active');
+            } else if (tabName === 'seller') {
+                customerContent.style.display = 'none';
+                sellerContent.style.display = 'block';
+                customerTab.classList.remove('active');
+                sellerTab.classList.add('active');
+            }
+        }
+        
+        // New function to handle redirection
+        function redirectToDashboard(userType) {
+            // In a real application, you would perform login verification first.
+            if (userType === 'customer') {
+                // Redirects the browser to the customer dashboard file
+                window.location.href = 'customer_dashboard.html'; 
+            } else if (userType === 'seller') {
+                // Placeholder for seller dashboard or same dashboard with different view
+                alert("Seller login successful! Redirecting to Dashboard...");
+                window.location.href = 'customer_dashboard.html'; // Assuming the dashboard is the same for demo
+            }
+        }
+    </script>
+</body>
+</html>
