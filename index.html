@@ -1,202 +1,412 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardinal Pitstop - Login</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Hide seller form by default */
-        #seller-form-content { display: none; }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cardinal Pitstop - Login</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root{
+      --mapua-red: #C60C30;  
+      --bg-red: #c60e31;
+      --card-bg: #fff;
+      --muted: #6b6b6b;
+      --radius: 12px;
+    }
 
-        /* Pointer for buttons */
-        .login-button { cursor: pointer; }
+    /* Reset & base */
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; margin:0; font-family: Inter, Roboto, Arial, sans-serif; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    body{
+      background: linear-gradient(180deg, var(--bg-red) 0%, #a60b28 100%);
+      color:#222;
+      min-height:100vh;
+      display:flex;
+      align-items:center;      /* <- center vertically */
+      justify-content:center;  /* <- center horizontally */
+      padding:24px;
+    }
 
-        /* Fade animation */
-        .form-content { animation: fadeIn 0.2s ease-in-out; }
-        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    /* Page wrapper: centers content */
+    .page-wrapper{
+      width:100%;
+      max-width:1100px;
+      display:flex;
+      flex-direction:column;
+      gap:22px;
+      align-items:center;
+    }
 
-        /* Header styling */
-        .header-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            margin-top: 20px;
-        }
+    /* Top header with logo + title */
+    .header-top {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      color:#fff;
+      text-align:center;
+      margin:0; /* removed top spacing so whole block centers nicely */
+    }
+    .header-top .logo{
+      width:110px;
+      height:110px;
+      background:var(--card-bg);
+      padding:10px;
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:3px solid #ffd86b;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+    .header-top .logo img{ width:100%; height:auto; display:block; border-radius:10px; }
+    .header-top .title{
+      margin:0;
+      letter-spacing:3px;
+      font-weight:800;
+      color:#fff;
+      font-size:20px;
+    }
 
-        .logo {
-            width: 150px;
-            height: auto;
-            margin-bottom: 10px;
-            border-radius: 12px;
-        }
+    /* Layout below header: only the login card (keeps content unchanged) */
+    .layout {
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:28px;
+    }
 
-        @media (max-width: 600px) {
-            .logo { width: 120px; }
-        }
+    .main {
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
 
-        /* Warning messages */
-        .warning {
-            color: red;
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-    </style>
+    .login-card{
+      width:100%;
+      max-width:640px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.98));
+      border-radius: var(--radius);
+      padding:26px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+      border: 3px solid #ffd86b;
+    }
+
+    .login-header h2{ margin:0; font-size:20px; color:#222; font-weight:700; }
+    .login-header p{ margin:6px 0 0 0; color:var(--muted); font-size:14px; }
+
+    /* Tabs */
+    .account-type-tabs{
+      display:flex;
+      gap:8px;
+      margin:18px 0;
+      background: #fafafa;
+      padding:6px;
+      border-radius:10px;
+      width:fit-content;
+    }
+    .tab-button{
+      border:0;
+      padding:10px 18px;
+      border-radius:8px;
+      background:transparent;
+      cursor:pointer;
+      font-weight:600;
+      color:#666;
+      transition: all .12s ease;
+    }
+    .tab-button.active{
+      background:#fff;
+      color: var(--mapua-red);
+      box-shadow: 0 6px 20px rgba(198,12,48,0.06);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    /* Form fields (unchanged content) */
+    .login-form{ display:flex; flex-direction:column; gap:12px; margin-top:6px; }
+    label.input-label{ font-size:13px; font-weight:600; color:#333; margin-bottom:6px; }
+    input[type="email"], input[type="password"], select{
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid #e6e7ea;
+      background:#fafafa;
+      font-size:15px;
+      color:#222;
+      outline:none;
+      transition: box-shadow .12s, transform .08s;
+    }
+    input:focus, select:focus{
+      box-shadow: 0 8px 28px rgba(33,33,33,0.06);
+      transform: translateY(-1px);
+      border-color: rgba(198,12,48,0.12);
+    }
+
+    /* toggle inside input */
+    .input-with-toggle{ position:relative; }
+    .password-toggle-btn{
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform: translateY(-50%);
+      background:transparent;
+      border:none;
+      font-weight:600;
+      color:var(--mapua-red);
+      cursor:pointer;
+      padding:6px 8px;
+      border-radius:8px;
+      transition: background .12s;
+    }
+    .password-toggle-btn:active{ background: rgba(198,12,48,0.06); }
+
+    /* primary button */
+    .primary-btn{
+      display:inline-block;
+      width:100%;
+      padding:14px 18px;
+      border-radius:10px;
+      border:none;
+      background: linear-gradient(180deg,var(--mapua-red) 0%, #a60b28 100%);
+      color:#fff;
+      font-weight:700;
+      font-size:16px;
+      cursor:pointer;
+      box-shadow: 0 10px 30px rgba(198,12,48,0.12);
+      transition: transform .12s, box-shadow .12s;
+    }
+    .primary-btn:active{ transform: translateY(1px); }
+
+    .secondary-row{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:6px; }
+    .forgot-link{ color:var(--mapua-red); text-decoration:none; font-weight:600; font-size:13px; }
+
+    .helper-text{ color:var(--muted); font-size:13px; margin-top:6px; }
+    .warning{ color:#d73b3b; font-size:13px; margin:0; display:none; }
+
+    /* Responsive: stack nicely */
+    @media (max-width:880px){
+      .page-wrapper{ padding:0 12px; }
+      .header-top .logo{ width:86px; height:86px; }
+      .header-top .title{ font-size:18px; }
+      .login-card{ max-width:100%; padding:18px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="header-content">
-        <img src="images/Gemini_Generated_Image_g7g63mg7g63mg7g6.png" 
-             alt="Mapúa University Logo" 
-             class="logo">
-        <h1>CARDINAL PITSTOP</h1>
+  <div class="page-wrapper">
+
+    <!-- TOP LOGO + TITLE (centered now) -->
+    <div class="header-top" aria-hidden="false">
+      <div class="logo" role="img" aria-label="Mapua logo">
+        <img src="images/Gemini_Generated_Image_g7g63mg7g63mg7g6.png" alt="Mapúa University Logo">
+      </div>
+      <h1 class="title">CARDINAL PITSTOP</h1>
     </div>
 
-    <div class="login-container">
-        <div class="login-box">
+    <div class="layout" role="main">
+      <section class="main" aria-label="Login area">
+        <div class="login-card" role="region" aria-label="Login form">
+          <div class="login-header">
             <h2>Log in to Order</h2>
             <p>Choose your account type to get started</p>
-            
-            <!-- Tabs -->
-            <div class="account-type-tabs">
-                <button id="customer-tab" class="tab-button active" onclick="showTab('customer')">Customer</button>
-                <button id="seller-tab" class="tab-button" onclick="showTab('seller')">Seller</button> 
-            </div>
+          </div>
 
-            <!-- CUSTOMER FORM -->
-            <div id="customer-form-content" class="form-content">
-                <form class="login-form" id="customer-form">
-                    <label for="mapua-email" class="input-label">Mapúa Email</label>
-                    <input 
-                        type="email" 
-                        id="mapua-email" 
-                        name="mapua-email" 
-                        placeholder="juan.delacruz@mymail.mapua.edu.ph"
-                        required
-                    >
-                    <p id="email-warning" class="warning">⚠️ Please use your Mapúa email (example@mymail.mapua.edu.ph)</p>
+          <!-- Tabs -->
+          <div class="account-type-tabs" role="tablist" aria-label="Account type">
+            <button id="customer-tab" class="tab-button active" onclick="showTab('customer')" role="tab" aria-selected="true">Customer</button>
+            <button id="seller-tab" class="tab-button" onclick="showTab('seller')" role="tab" aria-selected="false">Seller</button>
+          </div>
 
-                    <label for="full-name" class="input-label">Full Name</label>
-                    <input 
-                        type="text" 
-                        id="full-name" 
-                        name="full-name" 
-                        placeholder="e.g., Juan Dela Cruz"
-                        required
-                    >
+          <!-- CUSTOMER FORM -->
+          <div id="customer-form-content" class="form-content" role="tabpanel" aria-hidden="false">
+            <form class="login-form" id="customer-form" onsubmit="return false;">
+              <div>
+                <label for="mapua-email" class="input-label">Mapúa Email</label>
+                <input type="email" id="mapua-email" name="mapua-email" placeholder="juan.delacruz@mymail.mapua.edu.ph" required aria-describedby="email-warning">
+                <p id="email-warning" class="warning">⚠️ Please use your Mapúa email (example@mymail.mapua.edu.ph)</p>
+              </div>
 
-                    <button type="button" class="login-button" onclick="redirectToDashboard('customer')">
-                        Log in as Customer
-                    </button>
-                </form>
-            </div>
+              <div>
+                <label for="customer-password" class="input-label">Password</label>
+                <div class="input-with-toggle">
+                  <input type="password" id="customer-password" name="customer-password" placeholder="Enter your password" required aria-describedby="pwd-helper">
+                  <button type="button" id="toggle-password-btn" class="password-toggle-btn" onclick="togglePasswordVisibility()" aria-pressed="false" aria-label="Show password">Show</button>
+                </div>
+                <div class="secondary-row" style="margin-top:6px;">
+                  <span id="pwd-helper" class="helper-text">Keep your password secure.</span>
+                  <a href="#" class="forgot-link" id="forgot-password-link">Forgot password?</a>
+                </div>
+              </div>
 
-            <!-- SELLER FORM -->
-            <div id="seller-form-content" class="form-content">
-                <form class="login-form" id="seller-form">
-                    <label for="select-store" class="input-label">Select Your Store</label>
-                    <select id="select-store" name="select-store" class="select-field" required>
-                        <option value="" disabled selected>Choose a store...</option>
-                        <option>Potato Stall</option>
-                        <option>Sinpao</option>
-                        <option>Kopoo</option>
-                        <option>Africen</option>
-                        <option>Belbel Banana</option>
-                        <option>Food Hall</option>
-                        <option>Sky Roast</option>
-                    </select>
+              <button type="button" class="primary-btn login-button" onclick="redirectToDashboard('customer')">Log in as Customer</button>
+            </form>
+          </div>
 
-                    <label for="store-pin" class="input-label">Store Access PIN</label>
-                    <input 
-                        type="password" 
-                        id="store-pin" 
-                        name="store-pin" 
-                        placeholder="Enter PIN (demo: 123)"
-                        required
-                    >
-                    <p id="pin-warning" class="warning">⚠️ Incorrect PIN! Try again.</p>
+          <!-- SELLER FORM -->
+          <div id="seller-form-content" class="form-content" role="tabpanel" aria-hidden="true" style="display:none;">
+            <form class="login-form" id="seller-form" onsubmit="return false;">
+              <div>
+                <label for="select-store" class="input-label">Select Your Store</label>
+                <select id="select-store" name="select-store" class="select-field" required>
+                  <option value="" disabled selected>Choose a store...</option>
+                  <option>Potato Stall</option>
+                  <option>Sinpao</option>
+                  <option>Kopoo</option>
+                  <option>Africen</option>
+                  <option>Belbel Banana</option>
+                  <option>Food Hall</option>
+                  <option>Sky Roast</option>
+                </select>
+              </div>
 
-                    <button type="button" class="login-button" onclick="redirectToDashboard('seller')">
-                        Log in as Seller
-                    </button>
-                </form>
-            </div>
+              <div>
+                <label for="store-pin" class="input-label">Store Access PIN</label>
+                <input type="password" id="store-pin" name="store-pin" placeholder="Enter PIN (demo: 123)" required aria-describedby="pin-warning">
+                <p id="pin-warning" class="warning">⚠️ Incorrect PIN! Try again.</p>
+              </div>
+
+              <button type="button" class="primary-btn login-button" onclick="redirectToDashboard('seller')">Log in as Seller</button>
+            </form>
+          </div>
+
         </div>
+      </section>
     </div>
+  </div>
 
-    <script>
-        // Switch between Customer and Seller forms
-        function showTab(tabName) {
-            const customerContent = document.getElementById('customer-form-content');
-            const sellerContent = document.getElementById('seller-form-content');
-            const customerTab = document.getElementById('customer-tab');
-            const sellerTab = document.getElementById('seller-tab');
+  <script>
+    // Switch between Customer and Seller forms
+    function showTab(tabName) {
+      const customerContent = document.getElementById('customer-form-content');
+      const sellerContent = document.getElementById('seller-form-content');
+      const customerTab = document.getElementById('customer-tab');
+      const sellerTab = document.getElementById('seller-tab');
 
-            if (tabName === 'customer') {
-                customerContent.style.display = 'block';
-                sellerContent.style.display = 'none';
-                customerTab.classList.add('active');
-                sellerTab.classList.remove('active');
-            } else {
-                customerContent.style.display = 'none';
-                sellerContent.style.display = 'block';
-                customerTab.classList.remove('active');
-                sellerTab.classList.add('active');
-            }
-        }
+      if (tabName === 'customer') {
+        customerContent.style.display = 'block';
+        sellerContent.style.display = 'none';
+        customerTab.classList.add('active');
+        sellerTab.classList.remove('active');
+        customerContent.setAttribute('aria-hidden', 'false');
+        sellerContent.setAttribute('aria-hidden', 'true');
+      } else {
+        customerContent.style.display = 'none';
+        sellerContent.style.display = 'block';
+        customerTab.classList.remove('active');
+        sellerTab.classList.add('active');
+        customerContent.setAttribute('aria-hidden', 'true');
+        sellerContent.setAttribute('aria-hidden', 'false');
+      }
+    }
 
-        // Placeholder behavior
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('input').forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.dataset.placeholder = this.placeholder;
-                    this.placeholder = '';
-                });
-                input.addEventListener('blur', function() {
-                    if (this.value === '') {
-                        this.placeholder = this.dataset.placeholder;
-                    }
-                });
-            });
+    // Placeholder behavior
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('focus', function() {
+          this.dataset.placeholder = this.placeholder;
+          this.placeholder = '';
         });
+        input.addEventListener('blur', function() {
+          if (this.value === '') {
+            this.placeholder = this.dataset.placeholder;
+          }
+        });
+      });
 
-        // Redirect logic with validation
-        function redirectToDashboard(userType) {
-            if (userType === 'customer') {
-                const emailInput = document.getElementById('mapua-email');
-                const warning = document.getElementById('email-warning');
-                const emailPattern = /^[a-zA-Z0-9._%+-]+@mymail\.mapua\.edu\.ph$/;
+      // Ensure the password toggle button state syncs with input type at load (in case)
+      syncToggleButtonState();
 
-                if (!emailPattern.test(emailInput.value)) {
-                    warning.style.display = 'block';
-                    emailInput.focus();
-                    return;
-                } else {
-                    warning.style.display = 'none';
-                }
+      // Forgot password demo behavior
+      const forgot = document.getElementById('forgot-password-link');
+      if (forgot) {
+        forgot.addEventListener('click', (e) => {
+          e.preventDefault();
+          const email = document.getElementById('mapua-email').value.trim();
+          if (email) {
+            alert('Password reset link would be sent to: ' + email);
+          } else {
+            alert('Please enter your Mapúa email to receive a password reset link.');
+            document.getElementById('mapua-email').focus();
+          }
+        });
+      }
+    });
 
-                // ✅ Redirect only if email is valid
-                window.location.href = 'customer_dashboard.html';
-            } 
-            else if (userType === 'seller') {
-                const pinInput = document.getElementById('store-pin');
-                const warning = document.getElementById('pin-warning');
+    // Toggle show/hide for the customer password field
+    function togglePasswordVisibility() {
+      const pwd = document.getElementById('customer-password');
+      const btn = document.getElementById('toggle-password-btn');
 
-                // Demo PIN check
-                if (pinInput.value !== '123') {
-                    warning.style.display = 'block';
-                    pinInput.focus();
-                    return;
-                } else {
-                    warning.style.display = 'none';
-                }
+      if (!pwd || !btn) return;
 
-                // ✅ Redirect only if correct PIN
-                window.location.href = 'seller_dashboard.html';
-            }
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        btn.textContent = 'Hide';
+        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-label', 'Hide password');
+      } else {
+        pwd.type = 'password';
+        btn.textContent = 'Show';
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-label', 'Show password');
+      }
+
+      pwd.focus();
+    }
+
+    function syncToggleButtonState() {
+      const pwd = document.getElementById('customer-password');
+      const btn = document.getElementById('toggle-password-btn');
+      if (!pwd || !btn) return;
+      if (pwd.type === 'password') {
+        btn.textContent = 'Show';
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-label', 'Show password');
+      } else {
+        btn.textContent = 'Hide';
+        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-label', 'Hide password');
+      }
+    }
+
+    // Redirect logic with validation
+    function redirectToDashboard(userType) {
+      if (userType === 'customer') {
+        const emailInput = document.getElementById('mapua-email');
+        const warning = document.getElementById('email-warning');
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@mymail\.mapua\.edu\.ph$/;
+
+        if (!emailPattern.test(emailInput.value)) {
+          warning.style.display = 'block';
+          emailInput.focus();
+          return;
+        } else {
+          warning.style.display = 'none';
         }
-    </script>
+
+        // ✅ Redirect only if email is valid
+        window.location.href = 'customer_dashboard.html';
+      } 
+      else if (userType === 'seller') {
+        const pinInput = document.getElementById('store-pin');
+        const warning = document.getElementById('pin-warning');
+
+        // Demo PIN check
+        if (pinInput.value !== '123') {
+          warning.style.display = 'block';
+          pinInput.focus();
+          return;
+        } else {
+          warning.style.display = 'none';
+        }
+
+        // ✅ Redirect only if correct PIN
+        window.location.href = 'seller_dashboard.html';
+      }
+    }
+  </script>
 </body>
 </html>
