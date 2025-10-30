@@ -1,0 +1,201 @@
+/* Custom properties for easy color management */
+:root {
+    --mapua-red: #C60C30; /* The main background red */
+    --gold-border: #FFD700; /* Yellow/Gold border color */
+    --white: #FFFFFF;
+    --dark-text: #333333;
+    --light-grey: #f0f0f0;
+    --input-placeholder: #888;
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif; 
+}
+
+body {
+    background-color: var(--mapua-red);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header/Top Content */
+.header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 0 30px; 
+    width: 100%;
+}
+
+.logo {
+    width: 100px; 
+    height: 100px;
+    border-radius: 50%; 
+    margin-bottom: 10px;
+    /* Placeholder styles for the logo image */
+    background-color: var(--white); 
+    border: 3px solid var(--gold-border);
+}
+
+.header-content h1 {
+    font-size: 2em;
+    font-weight: bold;
+    letter-spacing: 5px; 
+}
+
+/* Login Box Container */
+.login-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.login-box {
+    background-color: var(--white);
+    color: var(--dark-text);
+    padding: 30px 40px; 
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px; 
+    border: 3px solid var(--gold-border); 
+}
+
+.login-box h2 {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-box p {
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+/* Account Type Tabs */
+.account-type-tabs {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--light-grey);
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+.tab-button.active {
+    background-color: var(--white);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: var(--mapua-red);
+    font-weight: bold;
+}
+
+/* Login Form */
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-label {
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* General input and password styling */
+.login-form input {
+    padding: 15px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 1em;
+    background-color: var(--light-grey); 
+    width: 100%;
+}
+
+/* Input specific margins */
+.login-form input[type="email"],
+.login-form input[type="text"] {
+    margin-bottom: 20px;
+}
+
+.login-form input[type="password"] {
+    margin-bottom: 5px; 
+}
+
+/* Placeholder and pre-filled text color */
+.login-form input::placeholder,
+.login-form input[value] {
+    color: var(--input-placeholder);
+    font-style: italic;
+}
+.login-form input[value] {
+    font-style: normal;
+}
+
+/* Select dropdown specific styling */
+.select-field {
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 15px 35px 15px 10px; 
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 1em;
+    background-color: var(--light-grey);
+    width: 100%;
+    cursor: pointer;
+    color: var(--input-placeholder); 
+    
+    /* Custom arrow for dropdown */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23888%22%20d%3D%22M287%20176.4l-143.2%2079.1c-1.5%201-3.2%201.5-5%201.5-1.8%200-3.5-.5-5-1.5L5.4%20176.4c-2.7-1.5-4.5-4.5-4.5-7.7%200-6.2%205-11.2%2011.2-11.2h265.5c6.2%200%2011.2%205%2011.2%2011.2%200%203.2-1.8%206.2-4.5%207.7z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+/* Style for the small "Demo PIN" text */
+.demo-pin-text {
+    font-size: 0.8em;
+    color: var(--input-placeholder);
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+/* Login Button */
+.login-button {
+    background-color: var(--mapua-red);
+    color: var(--white);
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px; 
+    transition: background-color 0.2s;
+}
+
+.login-button:hover {
+    background-color: #A30A27; /* Darker red on hover */
+}
+
