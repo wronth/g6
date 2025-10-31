@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+</head>
+<style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+body {
+    background: #f8f9fa;
+    color: #1f2937;
+}
+
+/* Navbar */
+.navbar {
+    /* Solid red background, matching the image */
+    background: #C60C30; /* Using a solid red from the image */
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Increased gap for spacing */
+}
+
+.navbar-left h1 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.navbar-left p {
+    font-size: 0.875rem;
+    color: #f0f0f0; /* Lighter text for subtitle */
+}
+
+.back-arrow {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-right .filter-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0; /* Removed padding for a cleaner icon-only button */
+}
+
+.navbar-right .filter-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+
+/* Cart Section */
+.cart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Adjusted height to account for navbar height, approx 70-80px */
+    height: calc(100vh - 80px);
+}
+
+.cart-content {
+    text-align: center;
+    color: #374151;
+}
+
+.cart-icon {
+    background: #e5e7eb;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px;
+}
+
+.cart-icon svg {
+    width: 64px; /* Adjusted icon size */
+    height: 64px;
+}
+
+.empty-text {
+    font-size: 1.1rem;
+    font-weight: 600; /* Made text bolder to match image */
+    margin-bottom: 8px;
+}
+
+.subtext {
+    color: #6b7280;
+    margin-bottom: 24px; /* Increased margin */
+}
+
+.browse-btn {
+    background: #C60C30; /* Matching button color to navbar */
+    color: white;
+    border: none;
+    padding: 12px 24px; /* Slightly larger padding */
+    border-radius: 9999px; /* Pill shape */
+    font-weight: 600; /* Bolder font */
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none; /* Remove underline from link */
+    display: inline-block; /* Ensure it behaves like a button */
+}
+
+.browse-btn:hover {
+    background: #A30A27; /* Darker red on hover */
+}
+
+/* Remove default link styles within the button */
+.browse-btn a {
+    color: inherit; 
+    text-decoration: none; 
+    display: block; 
+    width: 100%; 
+    height: 100%;
+}
+
+</style>
+<body>
+    <!-- Top Navbar -->
+    <header class="navbar">
+        <div class="navbar-left">
+            <a href="customer_dashboard.html" class="back-arrow" aria-label="Back to home">&#8592;</a>
+            <div>
+                <!-- Updated Text -->
+                <h1>My Orders</h1>
+                <p>Track your food orders</p>
+            </div>
+        </div>
+        <div class="navbar-right">
+            <!-- Updated Icon Button -->
+            <button class="filter-btn" aria-label="Filter orders">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 7.334V11.5a.5.5 0 0 1-.29.45l-2 1A.5.5 0 0 1 7 12.5V7.334L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zM2 2v1.083l6 4.333v4.333l1-.5V7.417l6-4.333V2H2z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="cart-container">
+        <div class="cart-content">
+            <div class="cart-icon">
+                <!-- Updated Box Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#9ca3af" viewBox="0 0 24 24">
+                    <path d="M21.99,6.88,12,1.22,2.01,6.88V17.12L12,22.78l9.99-5.66V6.88ZM12,3.34,19.99,8,12,12.66,4.01,8,12,3.34ZM4,15.9,11,19.9v-6.1L4,9.7V15.9Z"/>
+                </svg>
+            </div>
+            <!-- Updated Text -->
+            <p class="empty-text">No orders yet</p>
+            <p class="subtext">Start ordering from our amazing stores!</p>
+            <!-- Updated Button (as a link) -->
+            <a href="customer_dashboard.html" class="browse-btn">
+                Browse Stores
+            </a>
+        </div>
+    </main>
+</body>
+</html>
+
