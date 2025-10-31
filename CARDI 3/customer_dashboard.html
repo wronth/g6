@@ -318,11 +318,11 @@
     margin-left: 0;
   }
 
-  /* ================== CAROUSEL STYLES (new) ================== */
+  /* ================== CAROUSEL STYLES (UPDATED TO BE LARGE HERO-LIKE) ================== */
   .carousel {
     width:100%;
-    max-width:880px;
-    margin: 0 auto 6px;
+    max-width:1200px;        /* bigger, closer to full-width hero look */
+    margin: 10px auto 18px;
     position: relative;
     overflow: visible;
   }
@@ -330,51 +330,84 @@
   .carousel-viewport {
     width:100%;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 16px;
+    background: transparent;
   }
 
   .carousel-track {
     display:flex;
-    gap:16px;
+    gap:24px;
     transition: transform 420ms cubic-bezier(.22,.9,.3,1);
     will-change: transform;
-    padding: 12px;
+    padding: 12px 8px;
     align-items: center;
   }
 
   .carousel-slide {
     background: #fff;
-    min-width: calc(100% - 32px); /* show one at a time */
-    flex: 0 0 calc(100% - 32px);
+    min-width: calc(100% - 48px); /* show one slide at a time */
+    flex: 0 0 calc(100% - 48px);
     border-radius: 12px;
-    box-shadow: 0 8px 26px rgba(31,41,55,0.08);
+    box-shadow: 0 12px 40px rgba(31,41,55,0.08);
     display:flex;
-    gap:12px;
+    gap:20px;
     align-items:center;
-    padding:18px;
+    padding: 20px;
     text-decoration:none;
     color:inherit;
+    overflow: visible;
   }
 
-  .carousel-slide .thumb {
-    width:86px;
-    height:86px;
-    border-radius:10px;
-    flex-shrink:0;
-    background:#eee;
+  /* big image thumb for real images */
+  .carousel-slide img.thumb {
+    width: 70%;
+    height: 420px;
+    min-width: 280px;
+    max-width: calc(100% - 320px);
+    object-fit: cover;
+    border-radius: 12px;
+    flex: 0 0 70%;
+    display: block;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+
+  /* emoji / placeholder thumb when not an image */
+  .carousel-slide .thumb:not(img) {
+    width: 420px;
+    height: 320px;
+    border-radius: 12px;
+    background: #fff;
+    font-size: 80px;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:28px;
     color:var(--mapua-red);
-    box-shadow: inset 0 -6px 10px rgba(198,12,48,0.03);
+    flex:0 0 420px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
   }
 
   .carousel-slide .meta {
     flex:1;
+    padding-left: 24px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
   }
-  .carousel-slide h3 { margin:0 0 6px 0; font-size:18px; }
-  .carousel-slide p { margin:0; color:#666; font-size:14px; }
+  .carousel-slide h3 { margin:0 0 8px 0; font-size:28px; color:#111; }
+  .carousel-slide p { margin:0 0 14px 0; color:#444; font-size:16px; line-height:1.3; }
+
+  /* emphasized CTAs */
+  .carousel-slide .set-schedule-button {
+    background: var(--mapua-red);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size:16px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(198,12,48,0.12);
+    align-self:flex-start;
+  }
 
   /* controls */
   .carousel-btn {
@@ -384,8 +417,8 @@
     background: rgba(255,255,255,0.95);
     border:none;
     box-shadow: 0 6px 18px rgba(31,41,55,0.08);
-    width:40px;
-    height:40px;
+    width:48px;
+    height:48px;
     border-radius:10px;
     display:inline-flex;
     align-items:center;
@@ -393,33 +426,51 @@
     cursor:pointer;
     z-index:5;
   }
-  .carousel-btn:focus{ outline: none; box-shadow:0 0 0 4px rgba(198,12,48,0.08); }
-  .carousel-prev{ left: -8px; }
-  .carousel-next{ right: -8px; }
+  .carousel-btn:focus{ outline: none; box-shadow:0 0 0 6px rgba(198,12,48,0.08); }
+  .carousel-prev{ left: 8px; }
+  .carousel-next{ right: 8px; }
 
   /* indicators */
   .carousel-dots {
     display:flex;
     gap:8px;
     justify-content:center;
-    margin-top:8px;
+    margin-top:12px;
   }
   .carousel-dot {
-    width:10px;
-    height:10px;
+    width:12px;
+    height:12px;
     border-radius:50%;
-    background: #e0e0e0;
+    background: #e6e6e6;
     border:none;
     cursor:pointer;
   }
   .carousel-dot.active { background: var(--mapua-red); }
 
-  /* small-screen tweaks */
-  @media (max-width:600px){
-    .carousel-slide { padding:14px; min-width: calc(100% - 24px); }
-    .carousel-btn { width:36px; height:36px; }
-    .carousel-prev{ left: -4px; }
-    .carousel-next{ right: -4px; }
+  /* Responsive: stack on small widths to keep image prominent but not huge */
+  @media (max-width:1000px){
+    .carousel-slide img.thumb { width: 60%; height: 320px; flex: 0 0 60%; }
+    .carousel-slide .thumb:not(img) { width: 300px; height: 240px; flex:0 0 300px; font-size:64px; }
+    .carousel-slide { padding:16px; min-width: calc(100% - 36px); }
+  }
+
+  @media (max-width:720px){
+    .carousel {
+      max-width: 100%;
+      margin: 8px auto 12px;
+    }
+    .carousel-slide {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 12px;
+      min-width: calc(100% - 24px);
+    }
+    .carousel-slide img.thumb { width: 100%; height: auto; max-height: 320px; flex: none; }
+    .carousel-slide .thumb:not(img) { width: 220px; height: 220px; margin: 0 auto; flex: none; }
+    .carousel-slide .meta { padding-left: 0; margin-top: 14px; text-align: center; }
+    .carousel-prev{ left: 4px; }
+    .carousel-next{ right: 4px; }
+    .carousel-btn { width:40px; height:40px; }
   }
   /* ========================================================== */
 
@@ -464,45 +515,39 @@
     </div>
 
     <div class="content-wrapper">
-      <div class="section-title-icon">💡 <strong>What's for lunch today?</strong></div>
+      <div class="section-title-icon">What are you craving for today?</div>
 
       <!-- ====== Carousel START (replaces the single quick-access card) ====== -->
       <div class="carousel" id="mainCarousel" aria-roledescription="carousel">
         <div class="carousel-viewport" role="region" aria-live="polite">
           <div class="carousel-track" id="carouselTrack">
-            <!-- Slide 1: Roulette -->
+            <!-- Slide 1: Roulette (wrap is a link so whole slide is clickable) -->
             <a class="carousel-slide" href="roulette.html" role="link" aria-label="Spin the Store Roulette">
               <div class="thumb">🎲</div>
               <div class="meta">
-                <h3>Spin the Store Roulette</h3>
+                <h3>Spin the Roulette</h3>
                 <p>Can't decide? Let us pick for you — spin now and try your luck.</p>
-              </div>
-              <div style="margin-left:12px;">
-                <button class="set-schedule-button" aria-hidden="true" style="padding:10px 12px;border-radius:8px">Spin</button>
+                <button class="set-schedule-button" aria-hidden="false" type="button">Spin</button>
               </div>
             </a>
 
             <!-- Slide 2: Featured Store -->
             <a class="carousel-slide" href="potatostall.html" role="link" aria-label="Featured: Potato Stall">
-              <img src="images/potatostall.jpg" alt="" style="width:86px;height:86px;border-radius:8px;object-fit:cover" class="thumb">
+              <img src="images/potatostall.jpg" alt="Potato Stall" class="thumb">
               <div class="meta">
                 <h3>Featured: Potato Stall</h3>
                 <p>Crispy treats top-rated this week — order a snack now.</p>
-              </div>
-              <div style="margin-left:12px;">
-                <span style="color:#666;font-size:13px">Open</span>
+                <div style="margin-top:8px;"><span style="color:#666;font-size:13px">Open • 4.8★</span></div>
               </div>
             </a>
 
             <!-- Slide 3: Today's Deal -->
             <a class="carousel-slide" href="kopee.html" role="link" aria-label="Today's Deal: Kopee">
-              <img src="images/kopee.jpg" alt="" style="width:86px;height:86px;border-radius:8px;object-fit:cover" class="thumb">
+              <img src="images/kopee.jpg" alt="Kopee" class="thumb">
               <div class="meta">
                 <h3>Today's Deal: Kopee</h3>
                 <p>Buy-one-get-one on selected beverages for a limited time.</p>
-              </div>
-              <div style="margin-left:12px;">
-                <strong style="color:var(--mapua-red)">Save Now</strong>
+                <div style="margin-top:8px;"><strong style="color:var(--mapua-red)">Save Now</strong></div>
               </div>
             </a>
           </div>
@@ -670,7 +715,7 @@
       let autoplayId = null;
       const autoplayDelay = 4000;
       let isHovering = false;
-      let startX = 0;
+      let startX = null;
       let deltaX = 0;
       const slideCount = slides.length;
 
@@ -687,7 +732,7 @@
       const dots = Array.from(dotsContainer.children);
 
       function update() {
-        const slideWidth = slides[0].getBoundingClientRect().width + 16; // include gap
+        const slideWidth = slides[0].getBoundingClientRect().width + 24; // include gap
         const offset = currentIndex * slideWidth;
         track.style.transform = `translateX(-${offset}px)`;
         dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
@@ -770,6 +815,21 @@
       // initialize UI
       update();
       startAutoplay();
+
+      // Ensure the "Spin" button inside the first slide definitely navigates to roulette.html
+      try {
+        const firstSlide = slides[0];
+        const spinBtn = firstSlide.querySelector('.set-schedule-button');
+        if (spinBtn) {
+          spinBtn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            // navigate explicitly
+            window.location.href = 'roulette.html';
+          });
+        }
+      } catch (err) {
+        // fail silently — carousel still works
+      }
     })();
 
     // --- Search Functionality (existing) ---
