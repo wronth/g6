@@ -7,12 +7,14 @@
   <link rel="stylesheet" href="style.css">
   <style>
     :root{
-      --mapua-red: #C60C30;
+      --mapua-red: #C60C30;  
       --bg-red: #c60e31;
       --card-bg: #fff;
       --muted: #6b6b6b;
       --radius: 12px;
     }
+
+    /* Reset & base */
     *{ box-sizing: border-box; }
     html,body{ height:100%; margin:0; font-family: Inter, Roboto, Arial, sans-serif; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
     body{
@@ -20,39 +22,183 @@
       color:#222;
       min-height:100vh;
       display:flex;
-      align-items:center;
-      justify-content:center;
+      align-items:center;      /* <- center vertically */
+      justify-content:center;  /* <- center horizontally */
       padding:24px;
     }
-    .page-wrapper{ width:100%; max-width:1100px; display:flex; flex-direction:column; gap:22px; align-items:center; }
-    .header-top { display:flex; flex-direction:column; align-items:center; gap:10px; color:#fff; text-align:center; margin:0; }
-    .header-top .logo{ width:110px; height:110px; background:var(--card-bg); padding:10px; border-radius:18px; display:flex; align-items:center; justify-content:center; border:3px solid #ffd86b; box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+
+    /* Page wrapper: centers content */
+    .page-wrapper{
+      width:100%;
+      max-width:1100px;
+      display:flex;
+      flex-direction:column;
+      gap:22px;
+      align-items:center;
+    }
+
+    /* Top header with logo + title */
+    .header-top {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      color:#fff;
+      text-align:center;
+      margin:0; /* removed top spacing so whole block centers nicely */
+    }
+    .header-top .logo{
+      width:110px;
+      height:110px;
+      background:var(--card-bg);
+      padding:10px;
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border:3px solid #ffd86b;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
     .header-top .logo img{ width:100%; height:auto; display:block; border-radius:10px; }
-    .header-top .title{ margin:0; letter-spacing:3px; font-weight:800; color:#fff; font-size:20px; }
-    .layout { width:100%; display:flex; align-items:center; justify-content:center; gap:28px; }
-    .main { flex:1; display:flex; align-items:center; justify-content:center; padding:18px; }
-    .login-card{ width:100%; max-width:640px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.98)); border-radius: var(--radius); padding:26px; box-shadow: 0 18px 50px rgba(0,0,0,0.22); border: 3px solid #ffd86b; }
+    .header-top .title{
+      margin:0;
+      letter-spacing:3px;
+      font-weight:800;
+      color:#fff;
+      font-size:20px;
+    }
+
+    /* Layout below header: only the login card (keeps content unchanged) */
+    .layout {
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:28px;
+    }
+
+    .main {
+      flex:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .login-card{
+      width:100%;
+      max-width:640px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.98));
+      border-radius: var(--radius);
+      padding:26px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+      border: 3px solid #ffd86b;
+    }
+
     .login-header h2{ margin:0; font-size:20px; color:#222; font-weight:700; }
     .login-header p{ margin:6px 0 0 0; color:var(--muted); font-size:14px; }
-    .account-type-tabs{ display:flex; gap:8px; margin:18px 0; background: #fafafa; padding:6px; border-radius:10px; width:fit-content; }
-    .tab-button{ border:0; padding:10px 18px; border-radius:8px; background:transparent; cursor:pointer; font-weight:600; color:#666; transition: all .12s ease; }
-    .tab-button.active{ background:#fff; color: var(--mapua-red); box-shadow: 0 6px 20px rgba(198,12,48,0.06); border: 1px solid rgba(0,0,0,0.04); }
+
+    /* Tabs */
+    .account-type-tabs{
+      display:flex;
+      gap:8px;
+      margin:18px 0;
+      background: #fafafa;
+      padding:6px;
+      border-radius:10px;
+      width:fit-content;
+    }
+    .tab-button{
+      border:0;
+      padding:10px 18px;
+      border-radius:8px;
+      background:transparent;
+      cursor:pointer;
+      font-weight:600;
+      color:#666;
+      transition: all .12s ease;
+    }
+    .tab-button.active{
+      background:#fff;
+      color: var(--mapua-red);
+      box-shadow: 0 6px 20px rgba(198,12,48,0.06);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    /* Form fields (unchanged content) */
     .login-form{ display:flex; flex-direction:column; gap:12px; margin-top:6px; }
     label.input-label{ font-size:13px; font-weight:600; color:#333; margin-bottom:6px; }
-    input[type="email"], input[type="password"], select{ width:100%; padding:12px 14px; border-radius:10px; border:1px solid #e6e7ea; background:#fafafa; font-size:15px; color:#222; outline:none; transition: box-shadow .12s, transform .08s; }
-    input:focus, select:focus{ box-shadow: 0 8px 28px rgba(33,33,33,0.06); transform: translateY(-1px); border-color: rgba(198,12,48,0.12); }
+    input[type="email"], input[type="password"], select{
+      width:100%;
+      padding:12px 14px;
+      border-radius:10px;
+      border:1px solid #e6e7ea;
+      background:#fafafa;
+      font-size:15px;
+      color:#222;
+      outline:none;
+      transition: box-shadow .12s, transform .08s;
+    }
+    input:focus, select:focus{
+      box-shadow: 0 8px 28px rgba(33,33,33,0.06);
+      transform: translateY(-1px);
+      border-color: rgba(198,12,48,0.12);
+    }
+
+    /* toggle inside input */
     .input-with-toggle{ position:relative; }
-    .password-toggle-btn{ position:absolute; right:10px; top:50%; transform: translateY(-50%); background:transparent; border:none; font-weight:600; color:var(--mapua-red); cursor:pointer; padding:6px 8px; border-radius:8px; transition: background .12s; }
-    .primary-btn{ display:inline-block; width:100%; padding:14px 18px; border-radius:10px; border:none; background: linear-gradient(180deg,var(--mapua-red) 0%, #a60b28 100%); color:#fff; font-weight:700; font-size:16px; cursor:pointer; box-shadow: 0 10px 30px rgba(198,12,48,0.12); transition: transform .12s, box-shadow .12s; }
+    .password-toggle-btn{
+      position:absolute;
+      right:10px;
+      top:50%;
+      transform: translateY(-50%);
+      background:transparent;
+      border:none;
+      font-weight:600;
+      color:var(--mapua-red);
+      cursor:pointer;
+      padding:6px 8px;
+      border-radius:8px;
+      transition: background .12s;
+    }
+    .password-toggle-btn:active{ background: rgba(198,12,48,0.06); }
+
+    /* primary button */
+    .primary-btn{
+      display:inline-block;
+      width:100%;
+      padding:14px 18px;
+      border-radius:10px;
+      border:none;
+      background: linear-gradient(180deg,var(--mapua-red) 0%, #a60b28 100%);
+      color:#fff;
+      font-weight:700;
+      font-size:16px;
+      cursor:pointer;
+      box-shadow: 0 10px 30px rgba(198,12,48,0.12);
+      transition: transform .12s, box-shadow .12s;
+    }
+    .primary-btn:active{ transform: translateY(1px); }
+
     .secondary-row{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:6px; }
     .forgot-link{ color:var(--mapua-red); text-decoration:none; font-weight:600; font-size:13px; }
+
     .helper-text{ color:var(--muted); font-size:13px; margin-top:6px; }
     .warning{ color:#d73b3b; font-size:13px; margin:0; display:none; }
-    @media (max-width:880px){ .page-wrapper{ padding:0 12px; } .header-top .logo{ width:86px; height:86px; } .header-top .title{ font-size:18px; } .login-card{ max-width:100%; padding:18px; } }
+
+    /* Responsive: stack nicely */
+    @media (max-width:880px){
+      .page-wrapper{ padding:0 12px; }
+      .header-top .logo{ width:86px; height:86px; }
+      .header-top .title{ font-size:18px; }
+      .login-card{ max-width:100%; padding:18px; }
+    }
   </style>
 </head>
 <body>
   <div class="page-wrapper">
+
+    <!-- TOP LOGO + TITLE (centered now) -->
     <div class="header-top" aria-hidden="false">
       <div class="logo" role="img" aria-label="Mapua logo">
         <img src="images/Gemini_Generated_Image_g7g63mg7g63mg7g6.png" alt="Mapúa University Logo">
@@ -68,11 +214,13 @@
             <p>Choose your account type to get started</p>
           </div>
 
+          <!-- Tabs -->
           <div class="account-type-tabs" role="tablist" aria-label="Account type">
             <button id="customer-tab" class="tab-button active" onclick="showTab('customer')" role="tab" aria-selected="true">Customer</button>
             <button id="seller-tab" class="tab-button" onclick="showTab('seller')" role="tab" aria-selected="false">Seller</button>
           </div>
 
+          <!-- CUSTOMER FORM -->
           <div id="customer-form-content" class="form-content" role="tabpanel" aria-hidden="false">
             <form class="login-form" id="customer-form" onsubmit="return false;">
               <div>
@@ -97,21 +245,20 @@
             </form>
           </div>
 
+          <!-- SELLER FORM -->
           <div id="seller-form-content" class="form-content" role="tabpanel" aria-hidden="true" style="display:none;">
             <form class="login-form" id="seller-form" onsubmit="return false;">
               <div>
                 <label for="select-store" class="input-label">Select Your Store</label>
                 <select id="select-store" name="select-store" class="select-field" required>
                   <option value="" disabled selected>Choose a store...</option>
-                  <!-- value points to the seller page for each store -->
-                  <option value="seller_african.html">African</option>
-                  <option value="seller_baibaibanana.html">BaiBai Banana</option>
-                  <option value="seller_foodhall.html">Food Hall</option>
-                  <option value="seller_kopee.html">Kopee</option>
-                  <option value="seller_potatostall.html">Potato Stall</option>
-                  <option value="seller_pancitnoodles.html">Pancit Noodles</option>
-                  <option value="seller_sinpao.html">Sinpao</option>
-                  <option value="seller_skyroast.html">Sky Roast</option>
+                  <option>Potato Stall</option>
+                  <option>Sinpao</option>
+                  <option>Kopoo</option>
+                  <option>Africen</option>
+                  <option>Belbel Banana</option>
+                  <option>Food Hall</option>
+                  <option>Sky Roast</option>
                 </select>
               </div>
 
@@ -169,8 +316,10 @@
         });
       });
 
+      // Ensure the password toggle button state syncs with input type at load (in case)
       syncToggleButtonState();
 
+      // Forgot password demo behavior
       const forgot = document.getElementById('forgot-password-link');
       if (forgot) {
         forgot.addEventListener('click', (e) => {
@@ -223,42 +372,30 @@
       }
     }
 
-    // Redirect logic with validation (PIN now required)
+    // Redirect logic with validation
     function redirectToDashboard(userType) {
       if (userType === 'customer') {
         const emailInput = document.getElementById('mapua-email');
         const warning = document.getElementById('email-warning');
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@mymail\.mapua\.edu\.ph$/;
 
-        const email = emailInput && emailInput.value ? emailInput.value.trim().toLowerCase() : '';
-        const emailPattern = /^[a-z0-9._%+-]+@mymail\.mapua\.edu\.ph$/;
-
-        if (!emailPattern.test(email)) {
+        if (!emailPattern.test(emailInput.value)) {
           warning.style.display = 'block';
-          if (emailInput) emailInput.focus();
+          emailInput.focus();
           return;
         } else {
           warning.style.display = 'none';
         }
 
+        // ✅ Redirect only if email is valid
         window.location.href = 'customer_dashboard.html';
-      }
+      } 
       else if (userType === 'seller') {
         const pinInput = document.getElementById('store-pin');
         const warning = document.getElementById('pin-warning');
 
-        // PIN is REQUIRED now: must be exactly '123' for demo
-        const pinValue = pinInput && pinInput.value ? pinInput.value.trim() : '';
-
-        if (!pinValue) {
-          // empty PIN -> block and ask for it
-          warning.textContent = '⚠️ PIN required to access seller pages.';
-          warning.style.display = 'block';
-          if (pinInput) pinInput.focus();
-          return;
-        }
-
-        if (pinValue !== '123') {
-          warning.textContent = '⚠️ Incorrect PIN! Try again.';
+        // Demo PIN check
+        if (pinInput.value !== '123') {
           warning.style.display = 'block';
           pinInput.focus();
           return;
@@ -266,19 +403,8 @@
           warning.style.display = 'none';
         }
 
-        // Get selected store page (value points to the correct seller page)
-        const storeSelect = document.getElementById('select-store');
-        const selectedPage = storeSelect ? String(storeSelect.value).trim() : '';
-
-        // If no store selected, focus and stop
-        if (!selectedPage) {
-          alert('Please choose a store before logging in.');
-          storeSelect.focus();
-          return;
-        }
-
-        // Redirect to the selected store's seller page (e.g. seller_potatostall.html)
-        window.location.href = selectedPage;
+        // ✅ Redirect only if correct PIN
+        window.location.href = 'customer_dashboard.html';
       }
     }
   </script>
