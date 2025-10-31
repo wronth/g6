@@ -56,7 +56,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: transparent;        /* keep no white box */
+    background: transparent;      /* keep no white box */
     cursor: pointer;
     padding: 0;
     margin: 0;
@@ -89,9 +89,9 @@
 
   /* each dash */
   .menu-toggle .bar {
-    width: 16px;         /* short dash look */
-    height: 3px;         /* slightly thicker so it's visible and neat */
-    background: #fff;    /* white on red */
+    width: 16px;        /* short dash look */
+    height: 3px;        /* slightly thicker so it's visible and neat */
+    background: #fff;   /* white on red */
     display: block;
     border-radius: 2px;
     transition: transform .22s, opacity .22s;
@@ -273,6 +273,22 @@
     min-width: 240px;
   }
 
+  .store-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover; /* <-- This crops the image to fit the 160px height */
+    border-radius: 8px;
+    margin-bottom: 12px;
+    background: #eee;
+  }
+
+  .store-card-description {
+    color: #666;
+    font-size: 13px;
+    margin-top: 6px;
+    min-height: 40px; /* Ensures consistent card height by reserving space for 2 lines */
+  }
+
   @media (min-width:1400px){
     .store-card { flex-basis: 28%; }
   }
@@ -286,10 +302,7 @@
 </head>
 <body>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar" aria-hidden="false">
-    <!-- Slim hamburger icon (no big white box) -->
-    <!-- improved toggle: short centered dashes, accessible -->
     <button class="menu-toggle" id="menuToggle" aria-label="Open menu" title="Open menu" aria-expanded="false" type="button">
       <span class="bars" aria-hidden="true">
         <span class="bar"></span>
@@ -314,7 +327,6 @@
     </div>
   </aside>
 
-  <!-- MAIN -->
   <main>
     <div class="page-top">
       <h1 class="page-greeting" id="pageGreeting">Hey, <span id="pageUserName">User Placeholder</span></h1>
@@ -338,13 +350,15 @@
       </div>
 
       <div class="quick-access-grid" style="margin-bottom:12px">
-        <div class="quick-access-box" style="display:flex;align-items:center;gap:12px">
-          <div style="font-size:26px;color:var(--mapua-red)"><i class="fas fa-utensils"></i></div>
-          <div>
-            <strong>Spin the Store Roulette</strong>
-            <div style="color:#666;font-size:13px">Can't decide? Let us pick for you!</div>
+        <a href="roulette.html" style="text-decoration: none; color: inherit; display: block;">
+          <div class="quick-access-box" style="display:flex;align-items:center;gap:12px">
+            <div style="font-size:26px;color:var(--mapua-red)"><i class="fas fa-utensils"></i></div>
+            <div>
+              <strong>Spin the Store Roulette</strong>
+              <div style="color:#666;font-size:13px">Can't decide? Let us pick for you!</div>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
 
       <h2 style="margin-top:20px; font-size:18px">👑 Customer's Choice of the Week</h2>
@@ -353,99 +367,98 @@
       <div class="store-grid choice-of-week-grid">
         <a href="potatostall.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card small-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#333">Potato Stall</div>
+            <img src="potatostall.jpg" alt="potatostall" class="store-image">
             <strong>Potato Stall</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">Crispy potato treats and comfort snacks</div>
+            <div class="store-card-description">Crispy potato treats and comfort snacks</div>
           </div>
         </a>
 
         <a href="sinpao.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card small-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#333">Sinpao</div>
+            <img src="sinpao.jpg" alt="Sinpao" class="store-image">
             <strong>Sinpao</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">Authentic Asian cuisine and flavorful rice meals</div>
+            <div class="store-card-description">Authentic Asian cuisine and flavorful rice meals</div>
           </div>
         </a>
 
         <a href="baibaibanana.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card small-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#333">Baibai Banana</div>
+            <img src="baibaibanana.jpg" alt="baibaibanana" class="store-image">
             <strong>Baibai Banana</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">Sweet treats and refreshing bingsu desserts</div>
+            <div class="store-card-description">Sweet treats and refreshing bingsu desserts</div>
           </div>
         </a>
       </div>
-
       <h2 style="margin-top:26px">Browse All Stores</h2>
       <p style="color:#666;margin-bottom:12px">Explore all available food options</p>
 
       <div class="store-grid full-stores-grid" style="margin-bottom:60px;">
+    
         <a href="potatostall.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#333">Potato Stall</div>
+            <img src="potatostall.jpg" alt="potatostall" class="store-image">
             <strong>Potato Stall</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">Crispy potato treats and comfort snacks</div>
+            <div class="store-card-description">Crispy potato treats and comfort snacks</div>
           </div>
         </a>
-
+    
         <a href="sinpao.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#333">Sinpao</div>
+            <img src="sinpao.jpg" alt="Sinpao" class="store-image">
             <strong>Sinpao</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">Authentic Asian cuisine and flavorful rice meals</div>
+            <div class="store-card-description">Authentic Asian cuisine and flavorful rice meals</div>
           </div>
         </a>
-
+    
         <a href="kopee.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#333">Kopee</div>
+            <img src="kopee.jpg" alt="kopee" class="store-image">
             <strong>Kopee</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">Premium coffee and specialty beverages</div>
+            <div class="store-card-description">Premium coffee and specialty beverages</div>
           </div>
         </a>
-
+    
         <a href="African.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#333">African</div>
+            <img src="african.jpg" alt="african" class="store-image">
             <strong>African</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">Hearty beef and chicken specialties</div>
+            <div class="store-card-description">Hearty beef and chicken specialties</div>
           </div>
         </a>
-
+    
         <a href="PancitNoodle.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#333">Pancit</div>
+            <img src="pancitnoodle.jpg" alt="pancitnoodle" class="store-image">
             <strong>Pancit Noodles</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">N/A (Add description)</div>
+            <div class="store-card-description">Classic Filipino pancit and noodle dishes</div>
           </div>
         </a>
-
+    
         <a href="baibaibanana.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#333">Baibai Banana</div>
+            <img src="baibaibanana.jpg" alt="baibaibanana" class="store-image">
             <strong>Baibai Banana</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">Sweet treats and refreshing bingsu desserts</div>
+            <div class="store-card-description">Sweet treats and refreshing bingsu desserts</div>
           </div>
         </a>
-
+    
         <a href="FoodHall.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#333">Food Hall</div>
+            <img src="foodhall.jpg" alt="foodhall" class="store-image">
             <strong>Food Hall</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">N/A (Add description)</div>
+            <div class="store-card-description">A wide variety of meals and dining choices</div>
           </div>
         </a>
-
+    
         <a href="SkyRoast.html" style="display:block;text-decoration:none;color:inherit">
           <div class="store-card">
-            <div style="height:140px;background:#eee;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;font-size:28px;color:#333">Sky Roast</div>
+            <img src="skyroast.jpg" alt="skyroast" class="store-image">
             <strong>Sky Roast</strong>
-            <div style="color:#666;font-size:13px;margin-top:6px">N/A (Add description)</div>
+            <div class="store-card-description">Juicy rotisserie chicken and savory meals</div>
           </div>
         </a>
       </div>
-
-    </div>
+      </div>
   </main>
 
 <script>
