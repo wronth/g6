@@ -186,12 +186,14 @@
     margin-bottom:18px;
   }
 
+  /* Align "Hey, ___" with the content title by adding left offset matching content padding */
   .page-greeting{
     font-size:50px;
     font-style: italic;
     color:#b60f2b;
     font-weight:700;
     margin:0;
+    margin-left:12px; /* aligns with content-wrapper padding so it lines up with section headings */
   }
 
   .search-wrapper{ width:420px; max-width:60%; }
@@ -207,7 +209,7 @@
   .search-input:focus{ outline:none; box-shadow:0 10px 30px rgba(33,33,33,0.07); transform: translateY(-1px); }
 
   .content-wrapper{ max-width:1200px; margin:0 auto; }
-  .section-title-icon{ font-size:18px; margin-bottom:12px; color:#333; display:flex; align-items:center; gap:8px; }
+  .section-title-icon{ font-size:18px; margin-bottom:12px; color:#666; display:flex; align-items:center; gap:8px; font-style: italic;}
 
   .planner-box{
     background:var(--card);
@@ -499,6 +501,104 @@
   }
   /* ========================================================== */
 
+  /* ---------- NEW: Equal-height, gap-free stall cards grid ---------- */
+  /* Use CSS Grid so cards always fill rows without awkward gaps and all cards match height */
+  .choice-of-week-grid,
+  .full-stores-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    align-items: stretch; /* ensures grid items stretch to same height */
+  }
+
+  /* Ensure anchor wrappers act as full-height grid items */
+  .store-link {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Make cards become full-height flex containers so content aligns consistently */
+  .store-card {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(31,41,55,0.04);
+    background: var(--card);
+    position: relative; /* for rank badge */
+    overflow: hidden;
+  }
+
+  /* Rank badge (1,2,3) */
+  .rank-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--mapua-red);
+    color: #fff;
+    font-weight:700;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    box-shadow: 0 6px 18px rgba(198,12,48,0.12);
+    z-index: 5;
+  }
+
+  /* Fix image sizing so it doesn't push cards to different heights */
+  .store-card .store-image {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    flex: 0 0 140px;
+  }
+
+  /* Meta row: opening hours and rating */
+  .store-meta-row {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    color:#666;
+    margin-bottom:6px;
+  }
+  .store-time { white-space:nowrap; }
+  .store-rating {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-weight:600;
+    color:#333;
+  }
+  .store-rating i { color: #f5b50a; /* star color */ font-size:14px; }
+
+  /* Push the description to the bottom to keep layout consistent */
+  .store-card strong { font-size: 15px; margin-bottom: 8px; }
+  .store-card-description {
+    margin-top: auto;
+    color: #666;
+    font-size: 13px;
+  }
+
+  /* Make small-card variant follow same sizing rules */
+  .small-card { padding: 12px; }
+  .small-card .store-image { height: 120px; flex: 0 0 120px; }
+
+  /* On very narrow screens, reduce min size so grid stays tidy */
+  @media (max-width:520px) {
+    .choice-of-week-grid,
+    .full-stores-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .page-greeting { margin-left: 8px; font-size:20px; }
+  }
+
 </style>
 </head>
 <body>
@@ -571,29 +671,33 @@
                 </svg>
               </div>
               <div class="meta">
-                <h3>Spin the Roulette</h3>
-                <p>Can't decide? <br>Let fate decide your meal.</p>
-                <button class="set-schedule-button" aria-hidden="false" type="button">Spin</button>
+                <h3>Spin the Wheel</h3>
+                <p>Can't decide? <br>Let fate decide.</p>
+                <button class="set-schedule-button" aria-hidden="false" type="button">Spin Here</button>
               </div>
             </a>
 
-            <!-- Slide 2: Featured Store -->
-            <a class="carousel-slide" href="potatostall.html" role="link" aria-label="Featured: Potato Stall">
-              <img src="images/potatostall.jpg" alt="Potato Stall" class="thumb">
+            <!-- Slide 2: Jump to Customer's Choice of the Week -->
+            <a class="carousel-slide" href="#choiceSection" role="link" aria-label="Jump to Customer's Choice">
+              <img src="images/potatostall.jpg" alt="Customer's Choice" class="thumb">
               <div class="meta">
-                <h3>Featured: Potato Stall</h3>
-                <p>Crispy treats top-rated this week — order a snack now.</p>
-                <div style="margin-top:8px;"><span style="color:#666;font-size:13px">Open • 4.8★</span></div>
+                <h3>Customer's Choice</h3>
+                <p>See what Mapúans love most.</p>
+                <div style="margin-top:12px;">
+                  <button class="set-schedule-button" type="button" data-href="#choiceSection">View</button>
+                </div>
               </div>
             </a>
 
-            <!-- Slide 3: Today's Deal -->
-            <a class="carousel-slide" href="kopee.html" role="link" aria-label="Today's Deal: Kopee">
-              <img src="images/kopee.jpg" alt="Kopee" class="thumb">
+            <!-- Slide 3: Jump to Browse All Stores -->
+            <a class="carousel-slide" href="#allStoresSection" role="link" aria-label="Jump to Browse All Stores">
+                <img src="images/canteen.jpg" alt="Customer's Choice" class="thumb">  
               <div class="meta">
-                <h3>Today's Deal: Kopee</h3>
-                <p>Buy-one-get-one on selected beverages for a limited time.</p>
-                <div style="margin-top:8px;"><strong style="color:var(--mapua-red)">Save Now</strong></div>
+                <h3>Browse all Stores</h3>
+                <p>Find exactly what you want.</p>
+                <div style="margin-top:12px;">
+                  <button class="set-schedule-button" type="button" data-href="#allStoresSection">Browse</button>
+                </div>
               </div>
             </a>
           </div>
@@ -616,100 +720,152 @@
         <!-- (kept for layout parity; carousel replaces the main quick access functionality above) -->
       </div>
 
-      <h2 style="margin-top:20px; font-size:18px">👑 Customer's Choice of the Week</h2>
-      <p style="color:#666;margin-top:6px;margin-bottom:12px">Top-rated favorites by Mapúa customers</p>
+      <h2 style="margin-top:20px; font-size:25px">Customer's Choice</h2>
+      <p style="color:#666;margin-top:6px;margin-bottom:12px">Top-rated favorites by Mapúans</p>
 
-      <div class="store-grid choice-of-week-grid">
-        <a href="potatostall.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+      <!-- ADD ID HERE FOR SCROLL TARGET -->
+      <div id="choiceSection" class="store-grid choice-of-week-grid">
+        <!-- Rank 1 -->
+        <a href="potatostall.html" class="store-link">
           <div class="store-card small-card">
+            <div class="rank-badge">#1</div>
             <img src="images/potatostall.jpg" alt="potatostall" class="store-image">
             <strong>Potato Stall</strong>
+            <div class="store-meta-row">
+              <span class="store-time">8:00 AM – 6:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.9</span>
+            </div>
             <div class="store-card-description">Crispy potato treats and comfort snacks</div>
           </div>
         </a>
 
-        <a href="sinpao.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+        <!-- Rank 2 -->
+        <a href="sinpao.html" class="store-link">
           <div class="store-card small-card">
+            <div class="rank-badge">#2</div>
             <img src="images/sinpao.jpg" alt="Sinpao" class="store-image">
             <strong>Sinpao</strong>
+            <div class="store-meta-row">
+              <span class="store-time">9:00 AM – 7:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.7</span>
+            </div>
             <div class="store-card-description">Authentic Asian cuisine and flavorful rice meals</div>
           </div>
         </a>
 
-        <a href="baibaibanana.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+        <!-- Rank 3 -->
+        <a href="baibaibanana.html" class="store-link">
           <div class="store-card small-card">
+            <div class="rank-badge">#3</div>
             <img src="images/baibaibanana.jpg" alt="baibaibanana" class="store-image">
             <strong>Baibai Banana</strong>
+            <div class="store-meta-row">
+              <span class="store-time">10:00 AM – 8:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.6</span>
+            </div>
             <div class="store-card-description">Sweet treats and refreshing bingsu desserts</div>
           </div>
         </a>
         <div id="no-results-choice" class="no-results">No stores found matching your search.</div>
       </div>
-      <h2 style="margin-top:26px">Browse All Stores</h2>
+      <h2 style="margin-top:25px">Explore Stalls</h2>
       <p style="color:#666;margin-bottom:12px">Explore all available food options</p>
 
-      <div class="store-grid full-stores-grid" style="margin-bottom:60px;">
+      <!-- ADD ID HERE FOR SCROLL TARGET -->
+      <div id="allStoresSection" class="store-grid full-stores-grid" style="margin-bottom:60px;">
     
-        <a href="potatostall.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+        <a href="potatostall.html" class="store-link">
           <div class="store-card">
             <img src="images/potatostall.jpg" alt="potatostall" class="store-image">
             <strong>Potato Stall</strong>
+            <div class="store-meta-row">
+              <span class="store-time">8:00 AM – 6:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.9</span>
+            </div>
             <div class="store-card-description">Crispy potato treats and comfort snacks</div>
           </div>
         </a>
     
-        <a href="sinpao.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+        <a href="sinpao.html" class="store-link">
           <div class="store-card">
             <img src="images/sinpao.jpg" alt="Sinpao" class="store-image">
             <strong>Sinpao</strong>
+            <div class="store-meta-row">
+              <span class="store-time">9:00 AM – 7:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.7</span>
+            </div>
             <div class="store-card-description">Authentic Asian cuisine and flavorful rice meals</div>
           </div>
         </a>
     
-        <a href="kopee.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+        <a href="kopee.html" class="store-link">
           <div class="store-card">
             <img src="images/kopee.jpg" alt="kopee" class="store-image">
             <strong>Kopee</strong>
+            <div class="store-meta-row">
+              <span class="store-time">7:00 AM – 9:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.8</span>
+            </div>
             <div class="store-card-description">Premium coffee and specialty beverages</div>
           </div>
         </a>
     
-        <a href="African.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+        <a href="African.html" class="store-link">
           <div class="store-card">
             <img src="images/african.jpg" alt="african" class="store-image">
             <strong>African</strong>
+            <div class="store-meta-row">
+              <span class="store-time">11:00 AM – 8:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.5</span>
+            </div>
             <div class="store-card-description">Hearty beef and chicken specialties</div>
           </div>
         </a>
     
-        <a href="PancitNoodle.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+        <a href="PancitNoodle.html" class="store-link">
           <div class="store-card">
             <img src="images/pancitnoodle.jpg" alt="pancitnoodle" class="store-image">
             <strong>Pancit Noodles</strong>
+            <div class="store-meta-row">
+              <span class="store-time">10:00 AM – 7:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.4</span>
+            </div>
             <div class="store-card-description">Classic Filipino pancit and noodle dishes</div>
           </div>
         </a>
     
-        <a href="baibaibanana.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+        <a href="baibaibanana.html" class="store-link">
           <div class="store-card">
             <img src="images/baibaibanana.jpg" alt="baibaibanana" class="store-image">
             <strong>Baibai Banana</strong>
+            <div class="store-meta-row">
+              <span class="store-time">10:00 AM – 8:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.6</span>
+            </div>
             <div class="store-card-description">Sweet treats and refreshing bingsu desserts</div>
           </div>
         </a>
     
-        <a href="FoodHall.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+        <a href="FoodHall.html" class="store-link">
           <div class="store-card">
             <img src="images/foodhall.jpg" alt="foodhall" class="store-image">
             <strong>Food Hall</strong>
+            <div class="store-meta-row">
+              <span class="store-time">8:00 AM – 10:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.3</span>
+            </div>
             <div class="store-card-description">A wide variety of meals and dining choices</div>
           </div>
         </a>
     
-        <a href="SkyRoast.html" style="display:block;text-decoration:none;color:inherit" class="store-link">
+        <a href="SkyRoast.html" class="store-link">
           <div class="store-card">
             <img src="images/skyroast.jpg" alt="skyroast" class="store-image">
             <strong>Sky Roast</strong>
+            <div class="store-meta-row">
+              <span class="store-time">9:00 AM – 8:00 PM</span>
+              <span class="store-rating"><i class="fas fa-star"></i> 4.2</span>
+            </div>
             <div class="store-card-description">Juicy chicken and savory meals</div>
           </div>
         </a>
@@ -748,6 +904,49 @@
     // placeholder user name until backend exists
     const fakeDatabaseUser = { fullName: "Juan Dela Cruz" };
     document.getElementById('pageUserName').textContent = fakeDatabaseUser.fullName;
+
+    // helper navigation function: supports same-page smooth scrolling for anchors and normal navigation for external pages
+    function navigateTo(href) {
+      if (!href) return;
+      try {
+        if (href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            // If possible, scroll to the section's heading (H2) that precedes the target.
+            // This ensures the title is visible instead of the cards being at the very top.
+            let scrollTarget = target;
+            const prev = target.previousElementSibling;
+            if (prev && prev.tagName && prev.tagName.toLowerCase() === 'h2') {
+              scrollTarget = prev;
+            } else {
+              // also handle cases where a wrapper paragraph/title exists right before the target
+              // look backwards up to 2 siblings to try to find an H2
+              const prev2 = prev ? prev.previousElementSibling : null;
+              if (prev2 && prev2.tagName && prev2.tagName.toLowerCase() === 'h2') {
+                scrollTarget = prev2;
+              }
+            }
+
+            // smooth scroll into view of the chosen element
+            scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // update history without jumping (keeps smooth behavior)
+            if (history && history.pushState) {
+              history.pushState(null, '', href);
+            } else {
+              // fallback: set hash after a tiny delay to avoid immediate jump
+              setTimeout(() => { location.hash = href; }, 300);
+            }
+          }
+        } else {
+          // external page or other resource -> normal navigation
+          window.location.href = href;
+        }
+      } catch (err) {
+        // fallback to direct assignment if anything goes wrong
+        window.location.href = href;
+      }
+    }
 
     // --- Carousel logic (new) ---
     (function initCarousel() {
@@ -858,7 +1057,7 @@
             const href = slide.getAttribute('href');
             if (href) {
               // slight delay so other UI transitions (if any) finish smoothly
-              setTimeout(() => { window.location.href = href; }, 10);
+              setTimeout(() => { navigateTo(href); }, 10);
             }
           }
         }
@@ -879,7 +1078,7 @@
       update();
       startAutoplay();
 
-      // Ensure the "Spin" button inside the first slide definitely navigates to roulette.html
+      // Ensure the "Spin" button inside the first slide definitely navigates to roulette.html, and other slide buttons jump smoothly
       try {
         const firstSlide = slides[0];
         const spinBtn = firstSlide && firstSlide.querySelector('.set-schedule-button');
@@ -890,17 +1089,27 @@
             if (Math.abs(deltaX) > 20) return;
             const href = firstSlide.getAttribute('href') || 'roulette.html';
             // small delay to avoid interfering with pointer handling
-            setTimeout(() => { window.location.href = href; }, 10);
+            setTimeout(() => { navigateTo(href); }, 10);
           });
           // keep keyboard accessibility
           spinBtn.addEventListener('keydown', (ev) => {
             if (ev.key === 'Enter' || ev.key === ' ') {
               ev.preventDefault();
               const href = firstSlide.getAttribute('href') || 'roulette.html';
-              window.location.href = href;
+              navigateTo(href);
             }
           });
         }
+
+        // Buttons inside other slides that have data-href should also scroll
+        const slideButtons = track.querySelectorAll('.carousel-slide .set-schedule-button[data-href]');
+        slideButtons.forEach(btn => {
+          btn.addEventListener('click', (ev) => {
+            const href = btn.getAttribute('data-href');
+            if (!href) return;
+            navigateTo(href);
+          });
+        });
 
         // Add robust click/keyboard handling for the whole slide anchors (covers clicks on child elements too).
         slides.forEach((slide) => {
@@ -914,7 +1123,7 @@
             if (href) {
               e.preventDefault();
               // tiny timeout so touch/pointer events don't conflict
-              setTimeout(() => { window.location.href = href; }, 10);
+              setTimeout(() => { navigateTo(href); }, 10);
             }
           });
 
@@ -922,7 +1131,7 @@
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               const href = slide.getAttribute('href');
-              if (href) window.location.href = href;
+              if (href) navigateTo(href);
             }
           });
         });
